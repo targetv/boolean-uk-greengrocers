@@ -94,19 +94,32 @@ function createShopItem(item) {
   storeIcon.append(imgIcon);
   itemEl.append(storeIcon, addToCartButton);
   addToCartButton.addEventListener("click", function () {
-    const itemToCart = {
-      id: item.id,
-      name: item.name,
-      price: item.price,
-      quantity: 1,
-    };
+    addItemToCart(item);
     const cartContainer = document.querySelector(".cart--item-list");
     cartContainer.innerHTML = "";
-    state.cart.push(itemToCart);
     cartItems();
   });
 
   return itemEl;
+}
+
+function addItemToCart(targetItem) {
+  let itemIsInCart = false;
+  for (const item of state.cart) {
+    if (item.id === targetItem.id) {
+      itemIsInCart = true;
+      item.quantity++;
+    }
+  }
+  if (!itemIsInCart) {
+    const itemToCart = {
+      id: targetItem.id,
+      name: targetItem.name,
+      price: targetItem.price,
+      quantity: 1,
+    };
+    state.cart.push(itemToCart);
+  }
 }
 
 function createShopItems() {
@@ -132,8 +145,7 @@ function cartItem(item) {
   removeItemBtn.addEventListener("click", function () {
     const quantity = (item.quantity -= 1);
     state.cart.quantity = quantity;
-    if (quantity < 0) {
-      // Neeed fix when numbers reach less than 0
+    if (quantity <= 0) {
       return itemEl.remove();
     }
     const ulEl = document.querySelector(".cart--item-list");
