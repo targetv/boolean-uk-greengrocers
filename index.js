@@ -146,6 +146,8 @@ function cartItem(item) {
     const quantity = (item.quantity -= 1);
     state.cart.quantity = quantity;
     if (quantity <= 0) {
+      let itemIndex = state.cart.indexOf(state.cart.id === item.id);
+      state.cart.splice(itemIndex, 1);
       return itemEl.remove();
     }
     const ulEl = document.querySelector(".cart--item-list");
