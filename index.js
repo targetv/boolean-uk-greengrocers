@@ -26,61 +26,16 @@ let state = {
 
 // - Create action functions that update state
 
-function fakeSeverItems() {
-  const itemsServer = [
-    {
-      id: "001-beetroot",
-      name: "beetroot",
-      price: 0.35,
-    },
-    {
-      id: "002-carrot",
-      name: "carrot",
-      price: 0.5,
-    },
-    {
-      id: "003-apple",
-      name: "apple",
-      price: 0.5,
-    },
-    {
-      id: "004-apricot",
-      name: "apricot",
-      price: 0.5,
-    },
-    {
-      id: "005-avocado",
-      name: "avocado",
-      price: 0.5,
-    },
-    {
-      id: "006-bananas",
-      name: "bananas",
-      price: 0.5,
-    },
-    {
-      id: "007-bell-pepper",
-      name: "bellpepper",
-      price: 0.5,
-    },
-    {
-      id: "008-berry",
-      name: "berry",
-      price: 0.5,
-    },
-    {
-      id: "009-blueberry",
-      name: "blueberry",
-      price: 0.5,
-    },
-    {
-      id: "010-eggplant",
-      name: "eggplant",
-      price: 0.5,
-    },
-  ];
-  state.items = itemsServer;
-  render();
+function addSeverDataToState() {
+  fetch("http://localhost:3000/products")
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (items) {
+      state.items = items;
+      render();
+      console.log(state.items);
+    });
 }
 
 function createShopItem(item) {
@@ -204,8 +159,8 @@ function render() {
   cartItems();
 }
 function init() {
+  addSeverDataToState();
   render();
-  fakeSeverItems();
 }
 
 init();
